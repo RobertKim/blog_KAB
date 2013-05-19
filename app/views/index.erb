@@ -1,0 +1,40 @@
+<div class="container">
+  <div class='hero-unit'>
+  <h1>Welcome to KickBlogAss!</h1><br>
+  <p>Don't just blog...KickBlogAss!
+  Fuck those other web logs!  This app will make you a kick-ass blogger!</p>
+  </div>
+
+  <div class="row">
+    <div class="span4">
+      <h4>Sign up and </h4>
+      <h4>start kicking blog ass!</h4>
+      <form action="/signup" method="post">
+        <input type="text" name="first_name" placeholder="First Name">
+        <input type="text" name="last_name" placeholder="Last Name">
+        <input type="email" name="email" placeholder="Email" required="required">
+        <input type="password" name="password" placeholder="Password"><br>
+        <input class="btn btn-primary" type="submit" value="Submit">
+      </form>
+    </div>
+
+    <div class="span4">
+      <h4>Login and continue </h4>
+      <h4>kicking blog ass! </h4>
+      <form action="/login" method="post">
+        <input type="email" name="email" placeholder="Email" required="required">
+        <input type="password" name="password" placeholder="Password"><br>
+        <input class="btn btn-primary" type="submit" value="Submit">
+      </form>
+    </div>
+
+    <div class="span4">
+      <h4> Checkout the categories that have already been RawBlogged!</h4>
+        <ul>
+          <% @tags.each do |tag| %>
+          <li><a href="/tag/<%=tag.id%>"><%= tag.name %></a><br></li>
+          <% end %>
+        </ul>
+    </div>
+  
+</div>
