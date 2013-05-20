@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="hero-unit">
+    <form action="/logout" method="get">
+      <input class="btn btn-danger" type="submit" value="Logout">
+    </form>
+
+    <div class="welcome">
+      <h2>Hello, <%= current_user.first_name %>! You may now edit your post, <%= @post.title %>! </h2>
+    </div>
+
+    <div class="edit">
+      <h3> Edit your blog post! <h3>
+        <form action="/edit_post" method="post">
+          <input type="hidden" name="post_id" value="<%= @post.id %>">
+          <input type="text" name="title" value="<%= @post.title %>"><br>
+          <textarea cols="10" rows="10" name="content"> <%= @post.content %>
+          </textarea><br>
+          <input type="text" name="tag" value=<%= @post.tags.map {|x| x.name}.join(',') %> >
+          <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    </div>
+  </div>
+</div>

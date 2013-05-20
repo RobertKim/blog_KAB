@@ -1,43 +1,24 @@
 <div class="container">
   <div class='hero-unit'>
-  <h1>This is the category, <%= @tag.name %>!</h1><br>
-  <p>Wanna see what the fuck people are saying about it?<br>
-    Here are the posts tagged with <%= @tag.name %>!</p>
-  </div>
-
-<% if @user %>
-
-  <div class="row">
-    <div class="span4">
-      <h4>Sign up and start </h4>
-      <h4>kicking blog ass!</h4>
-      <form action="/signup" method="post">
-        <input type="text" name="first_name" placeholder="First Name">
-        <input type="text" name="last_name" placeholder="Last Name">
-        <input type="text" name="username" placeholder="Create a username">
-        <input type="email" name="email" placeholder="Email" required="required">
-        <input type="password" name="password" placeholder="Password"><br>
-        <input class="btn btn-primary" type="submit" value="Submit">
+    <% if current_user %>
+      <form action="/profile" method="get">
+        <input class="btn btn-success" type="submit" value="Your profile">
       </form>
-    </div>
-
-    <div class="span4">
-      <h4>Login and continue </h4>
-      <h4>kicking blog ass! </h4>
-      <form action="/login" method="post">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password"><br>
-        <input class="btn btn-primary" type="submit" value="Submit">
-      </form>
-    </div>
-
-    <div class="span4">
-      <h4> Checkout the categories that have had their blog-asses already kicked!</h4>
-        <ul>
-          <% @tags.each do |tag| %>
-          <li><a href="/tag/<%=tag.id%>"><%= tag.name %></a><br></li>
-          <% end %>
-        </ul>
-    </div>
+    <% end %>
   
+    <h2> Tag name: <%= @tag.name.capitalize %> </h2>
+  </div>
+    
+  <div class="rows">
+    <div class="span12">
+
+    <h2> All the posts and authors that are associated with this tag:</h2>
+
+      <ul>
+        <% @tag.posts.each do |post| %>
+        <li><h3><a href="/post/<%= post.id %>">"<%= post.title %>" </a>written by <%= post.user.first_name %> <%= post.user.last_name %></h3></li>
+        <% end %>
+      </ul> 
+    </div>
+  </div>  
 </div>

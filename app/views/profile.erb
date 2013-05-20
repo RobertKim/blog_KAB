@@ -5,15 +5,14 @@
     </form>
 
     <div class="welcome">
-      <h1>Welcome, <%= current_user.first_name %>, </h1>
-      <h2> to your kickass profile page! </h2>
+      <h2>Welcome, <%= current_user.first_name %>, to your kickass profile page! </h2>
     </div>
 
     <div class="create">
       <h3> Create a blog post! <h3>
         <form action="/create_post" method="post">
           <input type="text" name="title" placeholder="Title"><br>
-          <textarea placeholder="Write your thoughts here." cols="120" rows="10" name="content">
+          <textarea cols="10" rows="10" name="content">
           </textarea><br>
           <input type="text" name="tag" placeholder="List your post tags here"><br>
           <input class="btn btn-primary" type="submit" value="Submit">
@@ -23,12 +22,12 @@
   
     <% if @posts.any? %>
       <div class="tags">
-      <h2>Here are your kick-ass categories:<h2>
+      <h2>Here are categories you've kicked the asses of previously:<h2>
       <ul>
       <% @posts.each do |post| %>
         <% post.tags.each do |tag| %>
 
-        <li><a href="/tag/<%= tag.id %>"><%= tag.name %></a></li>
+        <li><h4><a href="/tag/<%= tag.id %>"><%= tag.name %></a></h4></li>
         <% end %>
       <% end %>
       </ul>

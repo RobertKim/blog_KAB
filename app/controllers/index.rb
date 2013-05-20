@@ -22,11 +22,44 @@ end
 
 get '/profile' do
   current_user
-  p current_user
+  
   @posts = Post.where(user_id: session[:user_id])
 
   erb :profile
 end
+
+
+get '/update' do
+  current_user
+  
+  @post = Post.find(params[:post_id])
+
+  erb :update
+end
+
+post '/edit_post' do
+  @edit_post = Post.find(params[:post_id])
+  @edit_post.update_attributes(title: params[:title], 
+                                      content: params[:content])
+  tags_string = params[:tag]
+  if tags_string.include?(',')
+    tags_array = tags_string.split(',')
+    tags_array.each do |tag|
+      tag = tag.strip
+      @tag = Tag.find_or_create_by_name(name: tag)
+      @edit_post.tags << @tag
+    end
+  else tags_array = tags_string.split
+    tags_array.each do |tag|
+      @tag = Tag.find_or_create_by_name(name: tag)
+      @edit_post.tags << @tag
+    end
+  end 
+
+
+  redirect "/post/#{@edit_post.id}"
+end
+
 
 post '/create_post' do
   @create_post = Post.create(title: params[:title], 
@@ -37,12 +70,12 @@ post '/create_post' do
     tags_array = tags_string.split(',')
     tags_array.each do |tag|
       tag = tag.strip
-      @tag = Tag.create(name: tag)
+      @tag = Tag.find_or_create_by_name(name: tag)
       @create_post.tags << @tag
     end
   else tags_array = tags_string.split
     tags_array.each do |tag|
-      @tag = Tag.create(name: tag)
+      @tag = Tag.find_or_create_by_name(name: tag)
       @create_post.tags << @tag
     end
   end
@@ -58,18 +91,17 @@ get '/post/:post_id' do
 end
 
 
+get '/tag/:tag_id' do |tag_id|
 
-
-
-get 'tag/:tag_id' do
-  
-
+  @tag = Tag.find(tag_id)
   erb :tag
 end
 
-post '/tag/:tag_id' do
-  @tag = Tag.find
-
+post '/delete' do
+  @post = Post.find(params[:post_id])
+  @post.destroy
+  
+  redirect "/profile"
 end
 
 get '/logout' do

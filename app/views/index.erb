@@ -1,5 +1,10 @@
 <div class="container">
   <div class='hero-unit'>
+     <% if current_user %>
+    <form action="/profile/<%= current_user.id %>" method="get">
+      <input class="btn btn-success" type="submit" value="Your profile">
+    </form>
+    <% end %>
   <h1>Welcome to KickBlogAss!</h1><br>
   <p>Don't just blog...KickBlogAss!
   Fuck those other web logs!  This app will make you a kick-ass blogger!</p>

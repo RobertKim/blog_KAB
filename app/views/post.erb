@@ -1,32 +1,43 @@
 <div class="container">
   <div class='hero-unit'>
     <% if current_user %>
-    <form action="/profile/<%= @post.user_id %>" method="get">
+    <form action="/profile" method="get">
       <input class="btn btn-success" type="submit" value="Your profile">
     </form>
     <% end %>
   
-  <h2> <%= @post.title.capitalize %> </h2>
+  <h2> Post Title: <%= @post.title.capitalize %> </h2>
   <h2> Author: <%= @post.user.first_name%> </h2>
+
+  <% if current_user.id = @post.user.id %>
+  <form action="/update" method="get">
+    <input type="hidden" name="post_id" value="<%= @post.id %>">
+    <input class="btn btn-primary" name="update"type="submit" value="Update this post">
+  </form>
+  <form action="/delete" method="post">
+    <input type="hidden" name="post_id" value="<%= @post.id %>">
+    <input class="btn btn-danger" name="delete"type="submit" value="Delete this post">
+  </form>
+  <% end %>
   </div>
 
+  
+
   <div class="rows">
-    <div class="span4">
+    <div class="span5">
       <h3> Post content: </h3>
       <h4><%= @post.content %></h4>
     </div>
   
-    <div class="span4">
+    <div class="span5">
       <h3>Here are this post's tags:</h3>
       <ul>
         <% @post.tags.each do |tag| %>
-        <li><a href="/tag/<%= tag.id %>"><%= tag.name %></a></li>
+        <li><h4><a href="/tag/<%= tag.id %>"><%= tag.name %></a></h4></li>
         <% end %>
       </ul>
     </div>
   </div>
-  
-  
   
   
 </div>
