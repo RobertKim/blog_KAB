@@ -15,7 +15,7 @@
     <h2> All the posts and authors that are associated with this tag:</h2>
 
       <ul>
-        <% @tag.posts.each do |post| %>
+        <% @tag.posts.uniq.each do |post| %>
         <li><h3><a href="/post/<%= post.id %>">"<%= post.title %>" </a>written by <%= post.user.first_name %> <%= post.user.last_name %></h3></li>
         <% end %>
       </ul> 

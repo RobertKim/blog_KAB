@@ -1,7 +1,7 @@
 <div class="container">
   <div class='hero-unit'>
      <% if current_user %>
-    <form action="/profile/<%= current_user.id %>" method="get">
+    <form action="/profile<%= current_user.id %>" method="get">
       <input class="btn btn-success" type="submit" value="Your profile">
     </form>
     <% end %>
@@ -37,7 +37,7 @@
     <div class="span4">
       <h4> Checkout the categories that have had their blog-asses already kicked!</h4>
         <ul>
-          <% @tags.each do |tag| %>
+          <% @tags.uniq.each do |tag| %>
           <li><a href="/tag/<%=tag.id%>"><%= tag.name %></a><br></li>
           <% end %>
         </ul>

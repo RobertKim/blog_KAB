@@ -32,7 +32,7 @@
     <div class="span5">
       <h3>Here are this post's tags:</h3>
       <ul>
-        <% @post.tags.each do |tag| %>
+        <% @post.tags.uniq.each do |tag| %>
         <li><h4><a href="/tag/<%= tag.id %>"><%= tag.name %></a></h4></li>
         <% end %>
       </ul>

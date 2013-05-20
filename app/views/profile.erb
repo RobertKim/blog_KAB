@@ -25,7 +25,7 @@
       <h2>Here are categories you've kicked the asses of previously:<h2>
       <ul>
       <% @posts.each do |post| %>
-        <% post.tags.each do |tag| %>
+        <% post.tags.uniq.each do |tag| %>
 
         <li><h4><a href="/tag/<%= tag.id %>"><%= tag.name %></a></h4></li>
         <% end %>
