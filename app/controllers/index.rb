@@ -10,7 +10,7 @@ post '/signup' do
                       email: params[:email],
                       password: params[:password])
   session[:user_id] = @user.id 
-  p session[:user_id]
+
 
   redirect "/profile"
 
@@ -38,9 +38,11 @@ get '/update' do
 end
 
 post '/edit_post' do
+  p params
   @edit_post = Post.find(params[:post_id])
+  p params
   @edit_post.update_attributes(title: params[:title], 
-                                      content: params[:content])
+                               content: params[:content])
   tags_string = params[:tag]
   if tags_string.include?(',')
     tags_array = tags_string.split(',')

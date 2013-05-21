@@ -1,28 +1,22 @@
-class TagSplitter
-  def self.split_tags(tags)
-
-
-  end
-end
-
-puts TagSplitter.split_tags("Hell, no.") == ["hell","no"]
-
 helpers do
 
-  def tag_split(tags_string)
-    TagSplitter.split_tags(tags_string)
-  # tags_string = params[:tag]
+  def tags_splitter(tags_string)
     if tags_string.include?(',')
       tags_array = tags_string.split(',')
       tags_array.each do |tag|
-        return tag = tag.strip
-      end 
-    else
-      tags_array = tags_string.split
+        tag = tag.strip
+        @tag = Tag.find_or_create_by_name(name: tag)
+          
+        @edit_post.tags << @tag if @edit_post
+        @create_post.tags << @tag if @create_post
+      end
+    else tags_array = tags_string.split
       tags_array.each do |tag|
-        return tag
+        @tag = Tag.find_or_create_by_name(name: tag)
+        @edit_post.tags << @tag if @edit_post
+        @create_post.tags << @tag if @create_post
       end
     end
-
-  end
+  end 
+  
 end
