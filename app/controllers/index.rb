@@ -24,7 +24,8 @@ get '/profile' do
   current_user
   
   @posts = Post.where(user_id: session[:user_id])
-
+  @post_tags = @posts.map { |post| post.tags }
+  @tags = @post_tags.flatten.uniq
   erb :profile
 end
 
@@ -38,52 +39,20 @@ get '/update' do
 end
 
 post '/edit_post' do
-  p params
-  @edit_post = Post.find(params[:post_id])
-  p params
-  @edit_post.update_attributes(title: params[:title], 
+  @post = Post.find(params[:post_id])
+  @post.update_attributes(title: params[:title], 
                                content: params[:content])
-  tags_string = params[:tag]
-  if tags_string.include?(',')
-    tags_array = tags_string.split(',')
-    tags_array.each do |tag|
-      tag = tag.strip
-      @tag = Tag.find_or_create_by_name(name: tag)
-      @edit_post.tags << @tag
-    end
-  else tags_array = tags_string.split
-    tags_array.each do |tag|
-      @tag = Tag.find_or_create_by_name(name: tag)
-      @edit_post.tags << @tag
-    end
-  end 
-
-
-  redirect "/post/#{@edit_post.id}"
+  tags_splitter(params[:tag])
+  redirect "/post/#{@post.id}"
 end
 
 
 post '/create_post' do
-  @create_post = Post.create(title: params[:title], 
+  @post = Post.create(title: params[:title], 
                              content: params[:content])
-  @create_post.update_attributes(user_id: current_user.id)
-  tags_string = params[:tag]
-  if tags_string.include?(',')
-    tags_array = tags_string.split(',')
-    tags_array.each do |tag|
-      tag = tag.strip
-      @tag = Tag.find_or_create_by_name(name: tag)
-      @create_post.tags << @tag
-    end
-  else tags_array = tags_string.split
-    tags_array.each do |tag|
-      @tag = Tag.find_or_create_by_name(name: tag)
-      @create_post.tags << @tag
-    end
-  end
-
-
-  redirect "/post/#{@create_post.id}"
+  @post.update_attributes(user_id: current_user.id)
+  tags_splitter(params[:tag])
+  redirect "/post/#{@post.id}"
 end
 
 get '/post/:post_id' do
